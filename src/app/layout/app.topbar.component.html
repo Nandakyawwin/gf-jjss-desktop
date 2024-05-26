@@ -1,7 +1,7 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo">
-        <span>SAKAI</span>
+        <img src="assets/layout/images/logo.png" style="border: 1px solid rgba(128, 128, 128, 0.184); border-radius: 5px;" alt="logo">
+        <span><b>Jue Jue's Safe Space</b></span>
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
@@ -13,17 +13,17 @@
     </button>
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
+        <!-- <button class="p-link layout-topbar-button">
             <i class="pi pi-calendar"></i>
             <span>Calendar</span>
-        </button>
-        <button class="p-link layout-topbar-button">
+        </button>-->
+        <button class="p-link layout-topbar-button" [routerLink]="'/admin/profile'">
             <i class="pi pi-user"></i>
             <span>Profile</span>
-        </button>
-        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
+        </button> 
+        <!-- <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
             <i class="pi pi-cog"></i>
             <span>Settings</span>
-        </button>
+        </button> -->
     </div>
 </div>

@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, Message, MessageService } from 'primeng/api';
 import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { StService } from '../../service/st.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
+    providers : [MessageService]
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
@@ -14,13 +16,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     products!: Product[];
 
+    Users: any = 0;
+
+    Roles: any = 0;
+
     chartData: any;
 
     chartOptions: any;
 
     subscription!: Subscription;
 
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
+    constructor(private productService: ProductService, public layoutService: LayoutService,private ST : StService,private msg: MessageService) {
         this.subscription = this.layoutService.configUpdate$
         .pipe(debounceTime(25))
         .subscribe((config) => {
@@ -29,6 +35,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.ST.allUser().subscribe(
+            (res: any) => {
+                this.Users = res.length;
+            },
+            (error: any) => {
+                this.msg.add({ key: 'tst', severity: 'error', summary: JSON.stringify(error.name), detail: 'Internet Server Error' })
+            }
+        );
+        this.ST.allRole().subscribe(
+            (res: any) => {
+                this.Roles = res.length;
+            }
+        )
         this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);
 

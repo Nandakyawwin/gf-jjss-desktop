@@ -3,7 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+
+  production: false,
+
+  BASEURL: 'https://jjss.nandakyawwin.me/admin/', // Production
+
+  // BASEURL: 'http://localhost:3000/admin/', // Testing Internal
+
 };
 
 /*
