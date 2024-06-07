@@ -1,0 +1,161 @@
+<div class="grid">
+    <div class="col-12 xl:col-12">
+        <div class="col-23 xl:col-12">
+            <div class="card">
+                <h5><b>Music</b></h5>
+                <p-toast key="tst"></p-toast>
+                <div class="p-toolbar-group-right mb-3" style="display: flex; justify-content: flex-end; width: 100%;">
+                    <button pButton type="button" label="New" icon="pi pi-user-plus" class="mr-2"
+                            (click)="openDialog()"></button>
+                </div>
+
+                <p-table
+                    #dt
+                    [value]="Users"
+                    [paginator]="true"
+                    [rows]="5"
+                    responsiveLayout="scroll"
+                    [tableStyle]="{'min-width': '50rem'}"
+                    [rowsPerPageOptions]="[5, 10, 20,40,80,100]"
+                    selectionMode="single"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="name">Music Title
+                                <p-sortIcon field="name"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="photo">Photo
+                                <p-sortIcon field="photo"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="music">Music
+                                <p-sortIcon field="music"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="video">Video
+                                <p-sortIcon field="video"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="uploader">Uploader
+                                <p-sortIcon field="uploader"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="since">Date
+                                <p-sortIcon field="since"></p-sortIcon>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-user>
+                        <tr [pSelectableRow]="user">
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.photo }}</td>
+                            <td>{{ user.music }}</td>
+                            <td>{{ user.video }}</td>
+                            <td>{{ user.uploader }}</td>
+                            <td>{{ user.since | date }}</td>
+                            <td>
+                                <div class="flex">
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                                            (click)="deleteProduct(user.music_id)"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <p-dialog [(visible)]="productDialog" [maximizable]="true" [style]="{width: '450px'}" [modal]="true" class="p-fluid">
+                <ng-template pTemplate="header">
+                    <span *ngIf="!addOrUpdate"><b>Add New Music</b></span>
+                    <span *ngIf="addOrUpdate"><b>Edit Music</b></span>
+                </ng-template>
+                <ng-template pTemplate="content">
+                    <form [formGroup]="datas"  (ngSubmit)="startLogin(datas.value)">
+                        <div class="field">
+                            <label for="name">Music Title</label>
+                            <input type="text" pInputText id="name" formControlName="name" name="name" required autofocus
+                                   [ngClass]="{'ng-invalid ng-dirty' : submitted && !name}"/>
+                            <small class="ng-dirty ng-invalid" *ngIf="submitted && !name">Music title is required.</small>
+                        </div>
+                        <div class="field">
+                            <label for="photo">Photo</label><br>
+                            <input
+                                class="form-control"
+                                type="file"
+                                (change)="onFileSelected($event)"
+                                accept="image/*"
+                                formControlName="photo"
+                                name="photo"
+                            />
+                        </div>
+                        <img
+                            [src]="imageData"
+                            style="width: 200px; height: 250px"
+                            *ngIf="imageData != null"
+                        />
+                        <div class="field">
+                            <label for="music">Music</label><br>
+                            <input
+                                class="form-control"
+                                type="file"
+                                (change)="onFileSelectedbg($event)"
+                                accept="audio/*"
+                                formControlName="music"
+                                name="music"
+                            />
+                        </div>
+                        
+                        <audio controls>
+                            <source
+                            [src]="imageDatabg"
+                            type="audio/mp3"
+                            *ngIf="imageDatabg != null"
+                            />
+                        </audio>
+
+                        <div class="field">
+                            <label for="video">Video</label><br>
+                            <input
+                                class="form-control"
+                                type="file"
+                                (change)="onFileSelectedVd($event)"
+                                accept="video/*"
+                                formControlName="video"
+                                name="video"
+                            />
+                        </div>
+
+                        <div class="field">
+                            <label for="name">Duration</label>
+                            <input type="text" pInputText id="duration" formControlName="duration" name="duration" required autofocus
+                                   [ngClass]="{'ng-invalid ng-dirty' : submitted && !duration}"/>
+                            <small class="ng-dirty ng-invalid" *ngIf="submitted && !duration">Duration is required.</small>
+                        </div>
+
+                        <div class="field">
+                            <label for="description">Uploader</label>
+                            <input type="text" pInputText id="uploader" name="uploader" formControlName="uploader" required autofocus
+                                   [ngClass]="{'ng-invalid ng-dirty' : submitted && !uploader}"/>
+                            <small class="ng-dirty ng-invalid" *ngIf="submitted && !uploader">Uploader is required.</small>
+                        </div>
+
+                        <button class="btn-submit" type="submit">Save</button>
+                    </form>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                            (click)="hideDialog()"></button>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+                <div class="flex align-items-center justify-content-center">
+                    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                    <span>Are you sure you want to delete?</span>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                            (click)="deleteProductDialog = false"></button>
+                    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                            (click)="confirmDelete()"></button>
+                </ng-template>
+            </p-dialog>
+
+        </div>
+    </div>
+</div>

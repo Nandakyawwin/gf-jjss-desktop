@@ -5,6 +5,7 @@ import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { StService } from '../../service/st.service';
+import { Router } from '@angular/router';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -16,9 +17,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     products!: Product[];
 
+    Music: any;
+
     Users: any = 0;
 
     Roles: any = 0;
+
+    Event: any;
+
+    Counselor: any;
+
+    Admin: any;
 
     chartData: any;
 
@@ -26,7 +35,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     subscription!: Subscription;
 
-    constructor(private productService: ProductService, public layoutService: LayoutService,private ST : StService,private msg: MessageService) {
+    constructor(private productService: ProductService, public layoutService: LayoutService,private ST : StService,private msg: MessageService,private router:Router) {
         this.subscription = this.layoutService.configUpdate$
         .pipe(debounceTime(25))
         .subscribe((config) => {
@@ -35,26 +44,52 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.ST.allUser().subscribe(
-            (res: any) => {
-                this.Users = res.length;
-            },
-            (error: any) => {
-                this.msg.add({ key: 'tst', severity: 'error', summary: JSON.stringify(error.name), detail: 'Internet Server Error' })
-            }
-        );
-        this.ST.allRole().subscribe(
-            (res: any) => {
-                this.Roles = res.length;
-            }
-        )
-        this.initChart();
-        this.productService.getProductsSmall().then(data => this.products = data);
 
-        this.items = [
-            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-        ];
+        let role = localStorage.getItem('role');
+        if (role === "admin") {
+            
+            this.ST.allUser().subscribe(
+                (res: any) => {
+                    this.Users = res.msg.length;
+                },
+                (error: any) => {
+                    this.msg.add({ key: 'tst', severity: 'error', summary: JSON.stringify(error.name), detail: 'Internet Server Error' })
+                }
+            );
+            this.ST.allMusic().subscribe(
+                (res: any) => {
+                    this.Music = res.msg.length;
+                }
+            )
+
+            this.ST.allCounselor().subscribe(
+                (res: any) => {
+                    this.Counselor = res.msg.length;
+                }
+            )
+
+            this.ST.allEvent().subscribe(
+                (res: any) => {
+                    this.Event = res.msg.length;
+                }
+            )
+
+            this.ST.allAdmin().subscribe(
+                (res: any) => {
+                    this.Admin = res.msg.length;
+                }
+            )
+
+            this.initChart();
+            this.productService.getProductsSmall().then(data => this.products = data);
+
+            this.items = [
+                { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+                { label: 'Remove', icon: 'pi pi-fw pi-minus' }
+            ];
+        } else if(role ==  undefined || role == null) {
+            this.router.navigateByUrl('/auth/login');
+        }
     }
 
     initChart() {
