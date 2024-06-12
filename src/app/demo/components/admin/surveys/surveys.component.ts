@@ -223,28 +223,19 @@ export class SurveysComponent {
     this.user_id = obj;
   }
 
-  confirmDelete() {
-    this.http.deleteUser(this.user_id).subscribe(
+  confirmDelete(id) {
+    this.http.deleteBooking(id).subscribe(
       (res: any) => {
         if (res.con) {
-          this.msgService.add({ key: 'tst', severity: 'success', summary: 'Success Message', detail: 'User Delete Successfully' });
+          this.msgService.add({ key: 'tst', severity: 'success', summary: 'Success Message', detail: 'Survey Delete Successfully' });
           this.deleteProductDialog = false;
-          this.name = '';
-          this.email = '';
-          this.user_id = '';
-          this.password = '';
-          this.productDialog = false;
-          this.submitted = false;
-          this.addOrUpdate = false;
-          this.http.allUser().subscribe(
-            (res: any) => {
-              if (res.con) {
-                let Users = res.msg;
-                this.Users = Users.reverse();
-              }
+          this.http.allSurvey().subscribe(
+            (response: any) => {
+              this.Users = response.data;
+              console.log(this.Users)
             },
-            (err: any) => {
-              this.msgService.add({ key: 'tst', severity: 'error', summary: JSON.stringify(err.name), detail: 'Internet Server Error' });
+            (error: any) => {
+              this.msgService.add({ key: 'tst', severity: 'error', summary: JSON.stringify(error.name), detail: 'Internet Server Error' })
             }
           )
         };

@@ -4,7 +4,7 @@
 
 export const environment = {
 
-  production: false,
+  production: true,
 
   BASEURL: 'https://jjss.nandakyawwin.me/admin/', // Production
 

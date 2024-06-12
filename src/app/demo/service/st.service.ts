@@ -226,6 +226,15 @@ export class StService {
     return this.http.get(url).pipe(map((res: any) => res));
   }
 
+  deleteBooking(id: any) {
+    let url = this.BASEURL + 'book/' + id;
+    return this.http.delete(url).pipe(
+      map(
+        res => res
+      )
+    )
+  }
+
   // ******* SURVEY *******
 
 

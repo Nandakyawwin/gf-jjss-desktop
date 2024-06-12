@@ -125,7 +125,7 @@
                               </td>
                             <td>
                                 <div class="flex">
-                                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="delete(user.book_id)"></button>
+                                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="confirmDelete(user.book_id)"></button>
                                 </div>
                               </td>
 						</tr>
@@ -141,6 +141,7 @@
 					#dt
 					[value]="message"
 					[paginator]="true"
+          [lazy]="true"
 					[rows]="7"
 					responsiveLayout="scroll"
 					[tableStyle]="{'min-width': '50rem'}"
