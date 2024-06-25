@@ -1,80 +1,77 @@
-    <div class="grid">
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-				<p-toast key="tst"></p-toast>
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Users</span>
-                        <div class="text-900 font-medium text-xl">{{Users}}</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-user text-blue-500 text-xl"></i>
-                    </div>
+<div class="grid">
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <p-toast key="tst"></p-toast>
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Users</span>
+                    <div class="text-900 font-medium text-xl">{{Users}}</div>
                 </div>
-            </div>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Musics</span>
-                        <div class="text-900 font-medium text-xl">{{Music}}</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-youtube text-orange-500 text-xl"></i>
-                    </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-user text-blue-500 text-xl"></i>
                 </div>
-            </div>
-        </div>
-
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Counselors</span>
-                        <div class="text-900 font-medium text-xl">{{Counselor}}</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-users text-orange-500 text-xl"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Admins</span>
-                        <div class="text-900 font-medium text-xl">{{Admin}}</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-users text-orange-500 text-xl"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Events</span>
-                        <div class="text-900 font-medium text-xl">{{Event}}</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-calendar text-orange-500 text-xl"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-12 xl:col-6">
-            <div class="card">
-                <h5>Testing Data</h5>
-                <p-chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
             </div>
         </div>
     </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Musics</span>
+                    <div class="text-900 font-medium text-xl">{{Music}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-youtube text-orange-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Counselors</span>
+                    <div class="text-900 font-medium text-xl">{{Counselor}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-users text-orange-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Admins</span>
+                    <div class="text-900 font-medium text-xl">{{Admin}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-users text-orange-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Events</span>
+                    <div class="text-900 font-medium text-xl">{{Event}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-calendar text-orange-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

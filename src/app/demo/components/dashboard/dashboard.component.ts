@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuItem, Message, MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { StService } from '../../service/st.service';
 import { Router } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -14,6 +15,10 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit, OnDestroy {
 
     items!: MenuItem[];
+
+    htmlContent: SafeHtml;
+
+    rawHtml: string;
 
     products!: Product[];
 
@@ -35,12 +40,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     subscription!: Subscription;
 
-    constructor(private productService: ProductService, public layoutService: LayoutService,private ST : StService,private msg: MessageService,private router:Router) {
+    constructor(private productService: ProductService,private sanitizer: DomSanitizer, public layoutService: LayoutService,private ST : StService,private msg: MessageService,private router:Router) {
         this.subscription = this.layoutService.configUpdate$
         .pipe(debounceTime(25))
         .subscribe((config) => {
             this.initChart();
         });
+        this.htmlContent = this.sanitizer.bypassSecurityTrustHtml(this.rawHtml);
     }
 
     ngOnInit() {
@@ -149,6 +155,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 }
             }
         };
+    }
+
+    dd() {
+        console.log(this.rawHtml);
     }
 
     ngOnDestroy() {

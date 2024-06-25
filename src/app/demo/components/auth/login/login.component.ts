@@ -17,7 +17,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
         }
     `]
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
 
     valCheck: string[] = ['remember'];
 
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit{
 
     email: any;
 
-    constructor(public layoutService: LayoutService,private router: Router,private  http: StService,private msgService: MessageService) { }
+    constructor(public layoutService: LayoutService, private router: Router, private http: StService, private msgService: MessageService) { }
 
     ngOnInit(): void {
         localStorage.removeItem('role');
@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit{
     }
 
     login() {
-        console.log('eee')
         let obj = {
             email: this.email,
             password: this.password
