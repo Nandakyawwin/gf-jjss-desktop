@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {MessageService} from "primeng/api";
-import {StService} from "../../../service/st.service";
-import {TableService} from "primeng/table";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { Component } from '@angular/core';
+import { MessageService } from "primeng/api";
+import { StService } from "../../../service/st.service";
+import { TableService } from "primeng/table";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 
 
@@ -15,176 +15,175 @@ import { Router } from '@angular/router';
 export class MusicsComponent {
 
   imageData: any;
-    
+
   title: any;
 
-datas: any;
+  datas: any;
 
-imageChangedEvent: any = '';
-    
-imagedbChangedEvent: any = '';
+  imageChangedEvent: any = '';
 
-imageVdChangedEvent: any = '';
-    
-imageDatabg: any;
-    
-imageDataVd: any;
+  imagedbChangedEvent: any = '';
 
-first: any = 0;
-    
-uploader: any;
+  imageVdChangedEvent: any = '';
 
-job: any;
+  imageDatabg: any;
 
-description: any;
-    
-Duration: any;
+  imageDataVd: any;
 
-userName: any;
+  first: any = 0;
 
-disabled: boolean = false;
+  uploader: any;
 
-phone: any;
+  job: any;
 
-productDialog: boolean = false;
+  description: any;
 
-deleteProductDialog: boolean = false;
+  Duration: any;
 
-formGroup: any;
+  userName: any;
 
-submitted: boolean = false;
+  disabled: boolean = false;
 
-addOrUpdate: boolean = false;
+  phone: any;
 
-rows = 10;
+  productDialog: boolean = false;
 
-Users: any;
+  deleteProductDialog: boolean = false;
 
+  formGroup: any;
 
-name: any;
+  submitted: boolean = false;
 
-user_id: any;
+  addOrUpdate: boolean = false;
 
-email: any;
+  rows = 10;
 
-password: any;
+  Users: any;
 
-constructor(private http: StService, private msgService: MessageService,private router: Router) {
-}
+  name: any;
 
+  user_id: any;
 
-ngOnInit(): void {
-  let role = localStorage.getItem('role');
-  if (role == 'admin') {
-    this.datas = new FormGroup({
-      name: new FormControl('', Validators.compose([Validators.minLength(70)])),
-      photo: new FormControl(
-        '',
-        Validators.compose([Validators.minLength(70)])
-      ),
-      duration: new FormControl(
-        '',
-        Validators.compose([Validators.minLength(70)])
-      ),
-      'music': new FormControl('', Validators.compose([
-        Validators.minLength(70)
-      ])),
-      'video': new FormControl('', Validators.compose([
-        Validators.minLength(70)
-      ])),
-      uploader: new FormControl(
-        '',
-        Validators.compose([Validators.minLength(70)])
-      ),
-    });
-    
-    this.http.allMusic().subscribe(
-      (response: any) => {
-        let Users = response.msg;
-        this.Users = Users.reverse();
-      },
-      (error: any) => {
-        this.msgService.add({
-          key: 'tst',
-          severity: 'error',
-          summary: JSON.stringify(error.name),
-          detail: 'Internet Server Error'
-        })
-      }
-    )
-  } else if (role == undefined || role == null) {
-    this.router.navigateByUrl('/auth/login');
+  email: any;
+
+  password: any;
+
+  constructor(private http: StService, private msgService: MessageService, private router: Router) {
   }
-}
 
-openDialog() {
+
+  ngOnInit(): void {
+    let role = localStorage.getItem('role');
+    if (role == 'admin') {
+      this.datas = new FormGroup({
+        name: new FormControl('', Validators.compose([Validators.minLength(70)])),
+        photo: new FormControl(
+          '',
+          Validators.compose([Validators.minLength(70)])
+        ),
+        duration: new FormControl(
+          '',
+          Validators.compose([Validators.minLength(70)])
+        ),
+        'music': new FormControl('', Validators.compose([
+          Validators.minLength(70)
+        ])),
+        'video': new FormControl('', Validators.compose([
+          Validators.minLength(70)
+        ])),
+        uploader: new FormControl(
+          '',
+          Validators.compose([Validators.minLength(70)])
+        ),
+      });
+
+      this.http.allMusic().subscribe(
+        (response: any) => {
+          let Users = response.msg;
+          this.Users = Users.reverse();
+        },
+        (error: any) => {
+          this.msgService.add({
+            key: 'tst',
+            severity: 'error',
+            summary: JSON.stringify(error.name),
+            detail: 'Internet Server Error'
+          })
+        }
+      )
+    } else if (role == undefined || role == null) {
+      this.router.navigateByUrl('/auth/login');
+    }
+  }
+
+  openDialog() {
     this.productDialog = true;
-}
+  }
 
-hideDialog() {
+  hideDialog() {
     this.productDialog = false;
     this.submitted = false;
     this.name = '';
     this.email = '';
     this.password = '';
     this.user_id = '';
-}
+  }
 
-deleteProduct(obj: any) {
+  deleteProduct(obj: any) {
     this.deleteProductDialog = true;
     this.user_id = obj;
-}
+  }
 
-confirmDelete() {
+  confirmDelete() {
     this.http.deleteMusic(this.user_id).subscribe(
-        (res: any) => {
-            if (res.con) {
-                this.msgService.add({
-                    key: 'tst',
-                    severity: 'success',
-                    summary: 'Success Message',
-                    detail: 'Delete Successfully'
-                });
-                this.deleteProductDialog = false;
-                this.name = '';
-                this.email = '';
-                this.user_id = '';
-                this.password = '';
-                this.productDialog = false;
-                this.submitted = false;
-                this.addOrUpdate = false;
-                this.http.allMusic().subscribe(
-                    (res: any) => {
-                        if (res.con) {
-                            let Users = res.msg;
-                            this.Users = Users.reverse();
-                        }
-                    },
-                    (err: any) => {
-                        this.msgService.add({
-                            key: 'tst',
-                            severity: 'error',
-                            summary: JSON.stringify(err.name),
-                            detail: 'Internet Server Error'
-                        });
-                    }
-                )
-            }
-            ;
-        },
-        (err: any) => {
-            this.msgService.add({
+      (res: any) => {
+        if (res.con) {
+          this.msgService.add({
+            key: 'tst',
+            severity: 'success',
+            summary: 'Success Message',
+            detail: 'Delete Successfully'
+          });
+          this.deleteProductDialog = false;
+          this.name = '';
+          this.email = '';
+          this.user_id = '';
+          this.password = '';
+          this.productDialog = false;
+          this.submitted = false;
+          this.addOrUpdate = false;
+          this.http.allMusic().subscribe(
+            (res: any) => {
+              if (res.con) {
+                let Users = res.msg;
+                this.Users = Users.reverse();
+              }
+            },
+            (err: any) => {
+              this.msgService.add({
                 key: 'tst',
                 severity: 'error',
                 summary: JSON.stringify(err.name),
                 detail: 'Internet Server Error'
-            });
+              });
+            }
+          )
         }
+        ;
+      },
+      (err: any) => {
+        this.msgService.add({
+          key: 'tst',
+          severity: 'error',
+          summary: JSON.stringify(err.name),
+          detail: 'Internet Server Error'
+        });
+      }
     )
-}
+  }
 
 
-dataURLtoFile(dataurl: any, filename: any) {
+  dataURLtoFile(dataurl: any, filename: any) {
     var arr = dataurl.split(','),
       mime = arr[0].match(/:(.*?);/)[1],
       bstr = atob(arr[1]),
@@ -196,19 +195,19 @@ dataURLtoFile(dataurl: any, filename: any) {
     }
     console.log(new File([u8arr], filename, { type: mime }));
     return new File([u8arr], filename, { type: mime });
-}
+  }
 
-onFileSelected(event: any) {
+  onFileSelected(event: any) {
     const file: File = event.target.files[0];
     this.imageChangedEvent = event;
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-        this.imageData = reader.result;
+      this.imageData = reader.result;
     };
-}
+  }
 
-onFileSelectedbg(event: any) {
+  onFileSelectedbg(event: any) {
     const file: File = event.target.files[0];
     this.imagedbChangedEvent = event;
     const reader = new FileReader();
@@ -220,6 +219,12 @@ onFileSelectedbg(event: any) {
 
   onFileSelectedVd(event: any) {
     const file: File = event.target.files[0];
+    if (!file) {
+      // Handle the case where no file is selected
+      console.log('No file selected.');
+      return;
+    }
+
     this.imageVdChangedEvent = event;
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -229,61 +234,87 @@ onFileSelectedbg(event: any) {
   }
 
 
-startLogin(datas: any) {
+  startLogin(datas: any) {
     const formData: any = new FormData();
-    let file = this.dataURLtoFile(
-      this.imageData,
-      this.imageChangedEvent.target.files[0].name
-    );
-    let filebg = this.dataURLtoFile(
-      this.imageDatabg,
-      this.imagedbChangedEvent.target.files[0].name
-    );
-    let fileVd = this.dataURLtoFile(
-      this.imageDataVd,
-      this.imageVdChangedEvent.target.files[0].name
-    );
-    formData.append('photo', file, file.name);
-    formData.append('music', filebg, filebg.name);
-    formData.append('video', fileVd, fileVd.name);
+    // let file = this.dataURLtoFile(
+    //   this.imageData,
+    //   this.imageChangedEvent.target.files[0].name
+    // );
+    // let filebg = this.dataURLtoFile(
+    //   this.imageDatabg,
+    //   this.imagedbChangedEvent.target.files[0].name
+    // );
+    // let fileVd = this.dataURLtoFile(
+    //   this.imageDataVd,
+    //   this.imageVdChangedEvent.target.files[0].name
+    // );
+    // Check if image data and event exist before processing
+    if (this.imageData && this.imageChangedEvent) {
+      let file = this.dataURLtoFile(
+        this.imageData,
+        this.imageChangedEvent.target.files[0].name
+      );
+      formData.append('photo', file, file.name);
+    }
+
+    // Check if background image data and event exist before processing
+    if (this.imageDatabg && this.imagedbChangedEvent) {
+      let filebg = this.dataURLtoFile(
+        this.imageDatabg,
+        this.imagedbChangedEvent.target.files[0].name
+      );
+      formData.append('music', filebg, filebg.name);
+    }
+
+    // Check if video data and event exist before processing
+    if (this.imageDataVd && this.imageVdChangedEvent) {
+      let fileVd = this.dataURLtoFile(
+        this.imageDataVd,
+        this.imageVdChangedEvent.target.files[0].name
+      );
+      formData.append('video', fileVd, fileVd.name);
+    }
+    // formData.append('photo', file, file.name);
+    // formData.append('music', filebg, filebg.name);
+    // formData.append('video', fileVd, fileVd.name);
     formData.append('name', datas.name);
     formData.append('duration', datas.duration);
     formData.append('uploader', datas.uploader);
 
     this.http.saveMusic(formData).subscribe(
-        (result: any) => {
-            if (result.con) {
-                this.productDialog = false;
-        this.http.allMusic().subscribe(
+      (result: any) => {
+        if (result.con) {
+          this.productDialog = false;
+          this.http.allMusic().subscribe(
             (response: any) => {
-                let Users = response.msg;
-                this.Users = Users.reverse();
-                this.msgService.add({
-                    key: 'tst',
-                    severity: 'success',
-                    summary: 'Music Upload Status',
-                    detail: 'Upload Successfully!'
-                })
+              let Users = response.msg;
+              this.Users = Users.reverse();
+              this.msgService.add({
+                key: 'tst',
+                severity: 'success',
+                summary: 'Music Upload Status',
+                detail: 'Upload Successfully!'
+              })
             },
             (error: any) => {
-                this.msgService.add({
-                    key: 'tst',
-                    severity: 'error',
-                    summary: JSON.stringify(error.name),
-                    detail: 'Internet Server Error'
-                })
-            }
-        )
-      }
-        },
-        (err: any) => {
-            this.msgService.add({
+              this.msgService.add({
                 key: 'tst',
                 severity: 'error',
-                summary: JSON.stringify(err.name),
+                summary: JSON.stringify(error.name),
                 detail: 'Internet Server Error'
-            })
+              })
+            }
+          )
         }
+      },
+      (err: any) => {
+        this.msgService.add({
+          key: 'tst',
+          severity: 'error',
+          summary: JSON.stringify(err.name),
+          detail: 'Internet Server Error'
+        })
+      }
     );
   }
 

@@ -10,7 +10,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
     templateUrl: './dashboard.component.html',
-    providers : [MessageService]
+    providers: [MessageService]
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
@@ -22,17 +22,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     products!: Product[];
 
-    Music: any;
+    Music: any = 0;
 
     Users: any = 0;
 
     Roles: any = 0;
 
-    Event: any;
+    Event: any = 0;
 
-    Counselor: any;
+    Counselor: any = 0;
 
-    Admin: any;
+    Admin: any = 0;
 
     chartData: any;
 
@@ -40,12 +40,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     subscription!: Subscription;
 
-    constructor(private productService: ProductService,private sanitizer: DomSanitizer, public layoutService: LayoutService,private ST : StService,private msg: MessageService,private router:Router) {
+    constructor(private productService: ProductService, private sanitizer: DomSanitizer, public layoutService: LayoutService, private ST: StService, private msg: MessageService, private router: Router) {
         this.subscription = this.layoutService.configUpdate$
-        .pipe(debounceTime(25))
-        .subscribe((config) => {
-            this.initChart();
-        });
+            .pipe(debounceTime(25))
+            .subscribe((config) => {
+                this.initChart();
+            });
         this.htmlContent = this.sanitizer.bypassSecurityTrustHtml(this.rawHtml);
     }
 
@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         let role = localStorage.getItem('role');
         if (role === "admin") {
-            
+
             this.ST.allUser().subscribe(
                 (res: any) => {
                     this.Users = res.msg.length;
@@ -93,7 +93,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 { label: 'Add New', icon: 'pi pi-fw pi-plus' },
                 { label: 'Remove', icon: 'pi pi-fw pi-minus' }
             ];
-        } else if(role ==  undefined || role == null) {
+        } else if (role == undefined || role == null) {
             this.router.navigateByUrl('/auth/login');
         }
     }
