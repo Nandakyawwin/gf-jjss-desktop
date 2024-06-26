@@ -16,6 +16,8 @@ export class MusicsComponent {
 
   imageData: any;
 
+  loading = false;
+
   title: any;
 
   datas: any;
@@ -118,11 +120,13 @@ export class MusicsComponent {
 
   openDialog() {
     this.productDialog = true;
+    this.loading = false;
   }
 
   hideDialog() {
     this.productDialog = false;
     this.submitted = false;
+    this.loading = false;
     this.name = '';
     this.email = '';
     this.password = '';
@@ -235,20 +239,9 @@ export class MusicsComponent {
 
 
   startLogin(datas: any) {
+    this.loading = true;
     const formData: any = new FormData();
-    // let file = this.dataURLtoFile(
-    //   this.imageData,
-    //   this.imageChangedEvent.target.files[0].name
-    // );
-    // let filebg = this.dataURLtoFile(
-    //   this.imageDatabg,
-    //   this.imagedbChangedEvent.target.files[0].name
-    // );
-    // let fileVd = this.dataURLtoFile(
-    //   this.imageDataVd,
-    //   this.imageVdChangedEvent.target.files[0].name
-    // );
-    // Check if image data and event exist before processing
+
     if (this.imageData && this.imageChangedEvent) {
       let file = this.dataURLtoFile(
         this.imageData,
@@ -257,7 +250,6 @@ export class MusicsComponent {
       formData.append('photo', file, file.name);
     }
 
-    // Check if background image data and event exist before processing
     if (this.imageDatabg && this.imagedbChangedEvent) {
       let filebg = this.dataURLtoFile(
         this.imageDatabg,
@@ -266,7 +258,6 @@ export class MusicsComponent {
       formData.append('music', filebg, filebg.name);
     }
 
-    // Check if video data and event exist before processing
     if (this.imageDataVd && this.imageVdChangedEvent) {
       let fileVd = this.dataURLtoFile(
         this.imageDataVd,
@@ -274,9 +265,6 @@ export class MusicsComponent {
       );
       formData.append('video', fileVd, fileVd.name);
     }
-    // formData.append('photo', file, file.name);
-    // formData.append('music', filebg, filebg.name);
-    // formData.append('video', fileVd, fileVd.name);
     formData.append('name', datas.name);
     formData.append('duration', datas.duration);
     formData.append('uploader', datas.uploader);
@@ -284,6 +272,7 @@ export class MusicsComponent {
     this.http.saveMusic(formData).subscribe(
       (result: any) => {
         if (result.con) {
+          this.loading = false;
           this.productDialog = false;
           this.http.allMusic().subscribe(
             (response: any) => {
@@ -302,7 +291,8 @@ export class MusicsComponent {
                 severity: 'error',
                 summary: JSON.stringify(error.name),
                 detail: 'Internet Server Error'
-              })
+              });
+              this.loading = false;
             }
           )
         }
